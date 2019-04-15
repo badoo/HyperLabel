@@ -27,7 +27,6 @@ public final class HyperLabelGestureHandler {
 
     // MARK: - Type declarations
 
-    private typealias Class = HyperLabelGestureHandler
     public typealias Handler = () -> Void
     public typealias TextView = UIView & TextContainerData
 
@@ -73,15 +72,11 @@ public final class HyperLabelGestureHandler {
         if let handler = self.handler(atPoint: point) {
             return handler
         }
-
-        let deltas = stride(from: 2.5, to: 15, by: 2.5).flatMap(Class.deltas)
-        for delta in deltas {
-            let pointWithOffset = CGPoint(x: point.x + delta.x, y: point.y + delta.y)
-            guard let handler = self.handler(atPoint: pointWithOffset) else { continue }
-            return handler
-        }
-
-        return nil
+        return stride(from: 2.5, to: 15, by: 2.5)
+            .lazy
+            .flatMap(CGPoint.deltas)
+            .compactMap { self.handler(atPoint: point + $0) }
+            .first
     }
 
     private func handler(atPoint point: CGPoint) -> Handler? {
@@ -90,8 +85,12 @@ public final class HyperLabelGestureHandler {
         guard let handler = self.linkRegistry.value(at: stringIndex) else { return nil }
         return handler
     }
+}
 
-    private static func deltas(forRadius radius: CGFloat) -> [CGPoint] {
+// MARK: - Extensions
+
+private extension CGPoint {
+    static func deltas(forRadius radius: CGFloat) -> [CGPoint] {
         let diagonal = radius / sqrt(2)
         return [
             CGPoint(x: -radius, y: 0),
@@ -103,5 +102,14 @@ public final class HyperLabelGestureHandler {
             CGPoint(x: diagonal, y: -diagonal),
             CGPoint(x: -diagonal, y: diagonal)
         ]
+    }
+}
+
+private extension CGPoint {
+    static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        var copy = lhs
+        copy.x += rhs.x
+        copy.y += rhs.y
+        return copy
     }
 }
