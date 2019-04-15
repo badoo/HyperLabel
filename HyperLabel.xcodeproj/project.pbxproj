@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		267498852260F8570000AA3D /* TextContainerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2674987F2260F8570000AA3D /* TextContainerData.swift */; };
+		267498862260F8570000AA3D /* HyperLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498802260F8570000AA3D /* HyperLabel.swift */; };
+		267498872260F8570000AA3D /* HyperLabelGestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498812260F8570000AA3D /* HyperLabelGestureHandler.swift */; };
+		267498882260F8570000AA3D /* HyperLabelTextStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498822260F8570000AA3D /* HyperLabelTextStyler.swift */; };
+		267498892260F8570000AA3D /* RangeMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498832260F8570000AA3D /* RangeMap.swift */; };
+		2674988A2260F8570000AA3D /* CharacterIndexFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498842260F8570000AA3D /* CharacterIndexFinder.swift */; };
 		268F29A32260E83A004E97D6 /* HyperLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 268F29992260E83A004E97D6 /* HyperLabel.framework */; };
 		268F29A82260E83A004E97D6 /* HyperLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F29A72260E83A004E97D6 /* HyperLabelTests.swift */; };
 		268F29AA2260E83A004E97D6 /* HyperLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 268F299C2260E83A004E97D6 /* HyperLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +29,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2674987F2260F8570000AA3D /* TextContainerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextContainerData.swift; sourceTree = "<group>"; };
+		267498802260F8570000AA3D /* HyperLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperLabel.swift; sourceTree = "<group>"; };
+		267498812260F8570000AA3D /* HyperLabelGestureHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperLabelGestureHandler.swift; sourceTree = "<group>"; };
+		267498822260F8570000AA3D /* HyperLabelTextStyler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperLabelTextStyler.swift; sourceTree = "<group>"; };
+		267498832260F8570000AA3D /* RangeMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeMap.swift; sourceTree = "<group>"; };
+		267498842260F8570000AA3D /* CharacterIndexFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterIndexFinder.swift; sourceTree = "<group>"; };
 		268F29992260E83A004E97D6 /* HyperLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyperLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		268F299C2260E83A004E97D6 /* HyperLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyperLabel.h; sourceTree = "<group>"; };
 		268F299D2260E83A004E97D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +83,12 @@
 		268F299B2260E83A004E97D6 /* HyperLabel */ = {
 			isa = PBXGroup;
 			children = (
+				267498842260F8570000AA3D /* CharacterIndexFinder.swift */,
+				267498802260F8570000AA3D /* HyperLabel.swift */,
+				267498812260F8570000AA3D /* HyperLabelGestureHandler.swift */,
+				267498822260F8570000AA3D /* HyperLabelTextStyler.swift */,
+				267498832260F8570000AA3D /* RangeMap.swift */,
+				2674987F2260F8570000AA3D /* TextContainerData.swift */,
 				268F299C2260E83A004E97D6 /* HyperLabel.h */,
 				268F299D2260E83A004E97D6 /* Info.plist */,
 			);
@@ -148,6 +166,7 @@
 				TargetAttributes = {
 					268F29982260E83A004E97D6 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 					268F29A12260E83A004E97D6 = {
 						CreatedOnToolsVersion = 10.1;
@@ -194,6 +213,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				267498892260F8570000AA3D /* RangeMap.swift in Sources */,
+				267498872260F8570000AA3D /* HyperLabelGestureHandler.swift in Sources */,
+				267498882260F8570000AA3D /* HyperLabelTextStyler.swift in Sources */,
+				267498852260F8570000AA3D /* TextContainerData.swift in Sources */,
+				2674988A2260F8570000AA3D /* CharacterIndexFinder.swift in Sources */,
+				267498862260F8570000AA3D /* HyperLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +366,7 @@
 		268F29AE2260E83A004E97D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -357,6 +383,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.badoo.HyperLabel;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -365,6 +392,7 @@
 		268F29AF2260E83A004E97D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -389,6 +417,7 @@
 		268F29B12260E83A004E97D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = HyperLabelTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -406,6 +435,7 @@
 		268F29B22260E83A004E97D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = HyperLabelTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
