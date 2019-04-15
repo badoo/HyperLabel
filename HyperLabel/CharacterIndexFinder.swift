@@ -77,29 +77,23 @@ private extension NSLineBreakMode {
     }
 }
 
-private extension NSMutableAttributedString {
-    func apply(defaultFont: UIFont) {
-        let allStringRange = NSRange(location: 0, length: self.length)
+private extension NSAttributedString {
 
-        var defaultFontAttributeRanges = [NSRange]()
-        self.enumerateAttributes(in: allStringRange, options: []) { attrs, range, _ in
+    func applying(defaultFont: UIFont) -> NSAttributedString {
+        let copy = self.mutableCopy() as! NSMutableAttributedString
+        let allStringRange = NSRange(location: 0, length: copy.length)
+
+        var defaultFontAttributeRanges: [NSRange] = []
+        copy.enumerateAttributes(in: allStringRange, options: []) { attrs, range, _ in
             if attrs[.font] == nil {
                 defaultFontAttributeRanges.append(range)
             }
         }
 
         defaultFontAttributeRanges.forEach { range in
-            self.addAttribute(.font, value: defaultFont, range: range)
+            copy.addAttribute(.font, value: defaultFont, range: range)
         }
-    }
-}
-
-private extension NSAttributedString {
-
-    func applying(defaultFont: UIFont) -> NSAttributedString {
-        let mutableAttributedString = self.mutableCopy() as! NSMutableAttributedString
-        mutableAttributedString.apply(defaultFont: defaultFont)
-        return mutableAttributedString.copy() as! NSAttributedString
+        return copy.copy() as! NSAttributedString
     }
 
     func resetLineBreakMode(_ lineBreakMode: NSLineBreakMode) -> NSAttributedString {
