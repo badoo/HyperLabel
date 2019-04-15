@@ -87,6 +87,18 @@ public final class HyperLabelGestureHandler {
 
 // MARK: - Extensions
 
+// ¯\_(ツ)_/¯
+#if !swift(>=5)
+private extension LazySequenceProtocol {
+    var first: Element? {
+        for element in self {
+            return element
+        }
+        return nil
+    }
+}
+#endif
+
 private extension CGPoint {
     static func deltas(forRadius radius: CGFloat) -> [CGPoint] {
         let diagonal = radius / sqrt(2)
