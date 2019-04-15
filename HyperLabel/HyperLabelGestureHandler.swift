@@ -81,9 +81,7 @@ public final class HyperLabelGestureHandler {
 
     private func handler(atPoint point: CGPoint) -> Handler? {
         guard let index = self.indexFinder.indexOfCharacter(atPoint: point) else { return nil }
-        let stringIndex = String.Index(encodedOffset: index)
-        guard let handler = self.linkRegistry.value(at: stringIndex) else { return nil }
-        return handler
+        return self.linkRegistry.value(at: index)
     }
 }
 

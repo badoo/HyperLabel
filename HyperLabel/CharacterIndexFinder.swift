@@ -23,7 +23,7 @@
 
 import Foundation
 
-public struct CharacterIndexFinder {
+public final class CharacterIndexFinder {
 
     private let layoutManager: NSLayoutManager
     private let textContainer: NSTextContainer
@@ -53,11 +53,12 @@ public struct CharacterIndexFinder {
         self.textContainer.size = data.size
     }
 
-    public func indexOfCharacter(atPoint point: CGPoint) -> Int? {
+    public func indexOfCharacter(atPoint point: CGPoint) -> String.Index? {
         guard self.textStorage.length > 0 else { return nil }
         let usedRect = self.layoutManager.usedRect(for: self.textContainer)
         guard usedRect.contains(point) else { return nil }
-        return self.layoutManager.glyphIndex(for: point, in: self.textContainer)
+        let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
+        return String.Index(encodedOffset: index)
     }
 
     public func rect(forRange range: Range<String.Index>) -> CGRect {
