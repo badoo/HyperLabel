@@ -141,39 +141,6 @@ public final class HyperLabel: UILabel {
         }
         return index
     }
-
-    // MARK: - Text elements
-
-    public struct Element {
-
-        public typealias Action = () -> Void
-
-        public let text: String
-        public let action: Action?
-
-        public init(text: String, action: Action? = nil) {
-            self.text = text
-            self.action = action
-        }
-    }
-
-    public func setText(withElements elements: [Element]) {
-        var text = ""
-        var links: [(Range<String.Index>, Element.Action)] = []
-
-        elements.forEach { element in
-            text += element.text
-            if let action = element.action {
-                let range = text.range(from: text.count - element.text.count)
-                links.append((range, action))
-            }
-        }
-
-        self.text = text
-        links.forEach {
-            self.addLink(withRange: $0.0, handler: $0.1)
-        }
-    }
 }
 
 private class HyperAccessibilityElement: UIAccessibilityElement {
@@ -190,11 +157,5 @@ private class HyperAccessibilityElement: UIAccessibilityElement {
 extension HyperLabel: TextContainerData {
     public var size: CGSize {
         return self.bounds.size
-    }
-}
-
-private extension String {
-    func range(from startIndex: Int) -> Range<String.Index> {
-        return self.index(self.startIndex, offsetBy: startIndex)..<self.endIndex
     }
 }
