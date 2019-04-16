@@ -56,20 +56,6 @@ public final class HyperLabel: UILabel {
         self.addGestureRecognizer(gestureRecognizer)
     }
 
-    // MARK: - UILabel
-
-    public override var text: String? {
-        didSet {
-            self.presenter.removeAllLinks()
-        }
-    }
-
-    public override var attributedText: NSAttributedString? {
-        didSet {
-            self.presenter.removeAllLinks()
-        }
-    }
-
     // MARK: - Public API
 
     public var extendsLinkTouchArea: Bool {
@@ -91,12 +77,5 @@ public final class HyperLabel: UILabel {
         super.attributedText = self.attributedText.map {
             self.textStyler.applyLinkAttributes(for: $0, at: range)
         }
-    }
-
-    // UIAccessibilityContainer
-
-    public override var accessibilityElements: [Any]? {
-        get { return self.presenter.accessibilityElements }
-        set { fatalError("Setting accessibility elements is forbidden") }
     }
 }

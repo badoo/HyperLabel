@@ -49,7 +49,11 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     public var extendsLinkTouchArea: Bool = true
 
-    public weak var textView: TextView?
+    public weak var textView: TextView? {
+        didSet {
+            self.observerTextViewChanges()
+        }
+    }
 
     public func addLink(addLinkWithRange range: Range<String.Index>,
                         accessibilityIdentifier: String?,
@@ -59,10 +63,6 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         }
         let item = LinkItem(handler: handler, accessibilityElement: accessibilityElement)
         self.linkRegistry.setValue(value: item, forRange: range)
-    }
-
-    public func removeAllLinks() {
-        self.linkRegistry.clear()
     }
 
     @objc
@@ -76,7 +76,35 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         handler()
     }
 
-    public var accessibilityElements: [UIAccessibilityElement] {
+    // MARK: - Private methods
+
+    private func didChangeText() {
+        self.linkRegistry.clear()
+    }
+
+    private var textViewObservers: [Any] = []
+    private func observerTextViewChanges() {
+        guard let textView = self.textView else {
+            self.textViewObservers.removeAll()
+            return
+        }
+        self.textViewObservers = [
+            textView.observe(\.text, options: [.new, .old]) { [weak self] textView, change in
+                guard let self = self, change.oldValue != change.newValue else { return }
+                self.didChangeText()
+            },
+            textView.observe(\.attributedText, options: [.new, .old]) { [weak self] textView, change in
+                guard let self = self, change.oldValue != change.newValue else { return }
+                self.didChangeText()
+            },
+            textView.observe(\.bounds, options: [.new, .old]) { [weak self] textView, change in
+                guard let self = self, change.oldValue != change.newValue else { return }
+                textView.accessibilityElements = self.makeAccessibilityElements()
+            }
+        ]
+    }
+
+    private func makeAccessibilityElements() -> [UIAccessibilityElement] {
         var result: [UIAccessibilityElement] = []
         if let textView = self.textView, let container = self.containerAccessibilityElement {
             container.accessibilityFrameInContainerSpace = textView.bounds
@@ -91,8 +119,6 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         }
         return result
     }
-
-    // MARK: - Private methods
 
     private func rect(forRange range: Range<String.Index>) -> CGRect {
         guard let view = self.textView else { return .zero }
