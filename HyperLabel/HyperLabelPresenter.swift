@@ -70,8 +70,11 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     public func addLink(addLinkWithRange range: Range<String.Index>,
                         accessibilityIdentifier: String?,
                         withHandler handler: @escaping Handler) {
-        guard let textView = self.textView,
-              let attributedText = textView.attributedText else { return }
+        guard let textView = self.textView else {
+            assertionFailure("textView is nil")
+            return
+        }
+        guard let attributedText = textView.attributedText else { return }
         let accessibilityElement = accessibilityIdentifier.flatMap {
             self.makeAccessibilityElement(range: range, accessibilityIdentifier: $0)
         }
@@ -85,7 +88,10 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     @objc
     public func handleTapGesture(sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
-        guard let view = self.textView else { return }
+        guard let view = self.textView else {
+            assertionFailure("textView is nil")
+            return
+        }
         let point = sender.location(in: view)
         self.layoutInfoProvider.update(textContainerData: view)
         let handlerProvider = self.extendsLinkTouchArea ? self.handler(nearPoint:) : self.handler(atPoint:)
@@ -145,19 +151,15 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     }
 
     private func rect(forRange range: Range<String.Index>) -> CGRect {
-        guard let view = self.textView else { return .zero }
+        guard let view = self.textView else {
+            assertionFailure("textView is nil")
+            return .zero
+        }
         self.layoutInfoProvider.update(textContainerData: view)
         return self.layoutInfoProvider.rect(forRange: range)
     }
 
-    private var _containerAccessibilityElement: UIAccessibilityElement?
-    private var containerAccessibilityElement: UIAccessibilityElement? {
-        if let element = self._containerAccessibilityElement {
-            return element
-        }
-        self._containerAccessibilityElement = self.makeContainerAccessibilityElement()
-        return self._containerAccessibilityElement
-    }
+    private lazy var containerAccessibilityElement: UIAccessibilityElement? = self.makeContainerAccessibilityElement()
 
     private func handler(nearPoint point: CGPoint) -> Handler? {
         if let handler = self.handler(atPoint: point) {
@@ -177,7 +179,11 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     private func makeAccessibilityElement(range: Range<String.Index>,
                                           accessibilityIdentifier: String) -> LinkAccessibilityElement? {
-        guard let container = self.textView, let string = container.attributedText?.string else { return nil }
+        guard let container = self.textView else {
+            assertionFailure("textView is nil")
+            return nil
+        }
+        guard let string = container.attributedText?.string else { return nil }
         let value = String(string[range])
         return LinkAccessibilityElement(accessibilityContainer: container,
                                         range: range,
@@ -186,7 +192,10 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     }
 
     private func makeContainerAccessibilityElement() -> UIAccessibilityElement? {
-        guard let container = self.textView else { return nil }
+        guard let container = self.textView else {
+            assertionFailure("textView is nil")
+            return nil
+        }
         let element = UIAccessibilityElement(accessibilityContainer: container)
         element.accessibilityTraits = .staticText
         return element
