@@ -127,9 +127,11 @@ public final class HyperLabelGestureHandler {
 
     private func makeAccessibilityElement(range: Range<String.Index>,
                                           accessibilityIdentifier: String) -> LinkAccessibilityElement? {
-        guard let container = self.textView else { return nil }
+        guard let container = self.textView, let string = container.attributedText?.string else { return nil }
+        let value = String(string[range])
         return LinkAccessibilityElement(accessibilityContainer: container,
                                         range: range,
+                                        value: value,
                                         identfier: accessibilityIdentifier)
     }
 

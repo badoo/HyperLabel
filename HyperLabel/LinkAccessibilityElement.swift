@@ -26,11 +26,13 @@ import UIKit
 final class LinkAccessibilityElement: UIAccessibilityElement {
     init(accessibilityContainer container: Any,
          range: Range<String.Index>,
+         value: String,
          identfier: String) {
         self.range = range
         super.init(accessibilityContainer: container)
         self.accessibilityIdentifier = identfier
         self.accessibilityTraits = .link
+        self.accessibilityValue = value
     }
 
     let range: Range<String.Index>
