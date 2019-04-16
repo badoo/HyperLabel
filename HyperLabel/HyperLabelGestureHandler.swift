@@ -27,12 +27,19 @@ public final class HyperLabelGestureHandler {
 
     // MARK: - Type declarations
 
+    private final class LinkItem {
+        let handler: Handler
+        init(handler: @escaping Handler) {
+            self.handler = handler
+        }
+    }
+
     public typealias Handler = () -> Void
     public typealias TextView = UIView & TextContainerData
 
     // MARK: - Private properties
 
-    private var linkRegistry = RangeMap<String.Index, Handler>()
+    private var linkRegistry = RangeMap<String.Index, LinkItem>()
     private let indexFinder = CharacterIndexFinder()
 
     // MARK: - Public API
@@ -41,8 +48,10 @@ public final class HyperLabelGestureHandler {
 
     public weak var textView: TextView?
 
-    public func addLink(addLinkWithRange range: Range<String.Index>, withHandler handler: @escaping Handler) {
-        self.linkRegistry.setValue(value: handler, forRange: range)
+    public func addLink(addLinkWithRange range: Range<String.Index>,
+                        withHandler handler: @escaping Handler) {
+        let item = LinkItem(handler: handler)
+        self.linkRegistry.setValue(value: item, forRange: range)
     }
 
     public func removeAllLinks() {
@@ -81,7 +90,7 @@ public final class HyperLabelGestureHandler {
 
     private func handler(atPoint point: CGPoint) -> Handler? {
         guard let index = self.indexFinder.indexOfCharacter(atPoint: point) else { return nil }
-        return self.linkRegistry.value(at: index)
+        return self.linkRegistry.value(at: index)?.handler
     }
 }
 
