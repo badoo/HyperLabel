@@ -25,9 +25,13 @@ import UIKit
 
 public final class HyperLabel: UILabel {
 
+    // MARK: - Type declarations
+
+    private typealias Presenter = HyperLabelPresenter<HyperLabel>
+
     // MARK: - Private properties
 
-    private let presenter = HyperLabelPresenter()
+    private let presenter = Presenter()
     private var textStyler = HyperLabelTextStyler()
 
     // MARK: - Instantiation
@@ -48,7 +52,7 @@ public final class HyperLabel: UILabel {
         self.isUserInteractionEnabled = true
         self.isMultipleTouchEnabled = false
         let gestureRecognizer = UITapGestureRecognizer(target: self.presenter,
-                                                       action: #selector(HyperLabelPresenter.handleTapGesture))
+                                                       action: #selector(Presenter.handleTapGesture))
         self.addGestureRecognizer(gestureRecognizer)
     }
 

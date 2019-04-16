@@ -23,7 +23,7 @@
 
 import UIKit
 
-public final class HyperLabelPresenter {
+public final class HyperLabelPresenter<TextView: UIView> where TextView: TextContainerData {
 
     // MARK: - Type declarations
 
@@ -39,7 +39,6 @@ public final class HyperLabelPresenter {
     }
 
     public typealias Handler = () -> Void
-    public typealias TextView = UIView & TextContainerData
 
     // MARK: - Private properties
 
