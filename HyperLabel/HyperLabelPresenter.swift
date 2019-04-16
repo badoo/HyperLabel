@@ -44,6 +44,9 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     private var linkRegistry = RangeMap<String.Index, LinkItem>()
     private let layoutInfoProvider = TextLayoutInfoProvider()
+    private var textStyler = HyperLabelTextStyler()
+
+    private var shouldReactToTextChange = true
 
     // MARK: - Public API
 
@@ -55,14 +58,24 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         }
     }
 
+    public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
+        get { return self.textStyler.linkAttributes }
+        set { self.textStyler.linkAttributes = newValue }
+    }
+
     public func addLink(addLinkWithRange range: Range<String.Index>,
                         accessibilityIdentifier: String?,
                         withHandler handler: @escaping Handler) {
+        guard let textView = self.textView,
+              let attributedText = textView.attributedText else { return }
         let accessibilityElement = accessibilityIdentifier.flatMap {
             self.makeAccessibilityElement(range: range, accessibilityIdentifier: $0)
         }
         let item = LinkItem(handler: handler, accessibilityElement: accessibilityElement)
         self.linkRegistry.setValue(value: item, forRange: range)
+        let updatedAttributedText = self.textStyler.applyLinkAttributes(for: attributedText,
+                                                                        at: range)
+        self.updateTextWithoutObserving(attributedText: updatedAttributedText)
     }
 
     @objc
@@ -78,11 +91,18 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     // MARK: - Private methods
 
+    private func updateTextWithoutObserving(attributedText: NSAttributedString) {
+        self.shouldReactToTextChange = false
+        defer { self.shouldReactToTextChange = true }
+        self.textView?.attributedText = attributedText
+    }
+
     private func didChangeText() {
+        guard self.shouldReactToTextChange else { return }
         self.linkRegistry.clear()
     }
 
-    private var textViewObservers: [Any] = []
+    private var textViewObservers: [NSKeyValueObservation] = []
     private func observerTextViewChanges() {
         guard let textView = self.textView else {
             self.textViewObservers.removeAll()

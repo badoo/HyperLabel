@@ -32,7 +32,6 @@ public final class HyperLabel: UILabel {
     // MARK: - Private properties
 
     private let presenter = Presenter()
-    private var textStyler = HyperLabelTextStyler()
 
     // MARK: - Instantiation
 
@@ -64,8 +63,8 @@ public final class HyperLabel: UILabel {
     }
 
     public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
-        get { return self.textStyler.linkAttributes }
-        set { self.textStyler.linkAttributes = newValue }
+        get { return self.presenter.additionalLinkAttributes }
+        set { self.presenter.additionalLinkAttributes = newValue }
     }
 
     public func addLink(withRange range: Range<String.Index>,
@@ -74,8 +73,5 @@ public final class HyperLabel: UILabel {
         self.presenter.addLink(addLinkWithRange: range,
                                     accessibilityIdentifier: accessibilityIdentifier,
                                     withHandler: handler)
-        super.attributedText = self.attributedText.map {
-            self.textStyler.applyLinkAttributes(for: $0, at: range)
-        }
     }
 }
