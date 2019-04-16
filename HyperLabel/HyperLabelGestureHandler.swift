@@ -88,6 +88,7 @@ public final class HyperLabelGestureHandler {
         for item in self.linkRegistry.values {
             guard let element = item.accessibilityElement else { continue }
             element.accessibilityFrameInContainerSpace = self.rect(forRange: element.range)
+            result.append(element)
         }
         return result
     }
