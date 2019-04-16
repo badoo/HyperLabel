@@ -27,7 +27,7 @@ public final class HyperLabel: UILabel {
 
     // MARK: - Private properties
 
-    private let gestureHandler = HyperLabelGestureHandler()
+    private let presenter = HyperLabelPresenter()
     private var textStyler = HyperLabelTextStyler()
 
     // MARK: - Instantiation
@@ -44,11 +44,11 @@ public final class HyperLabel: UILabel {
 
     private func commonInit() {
         self.isAccessibilityElement = false
-        self.gestureHandler.textView = self
+        self.presenter.textView = self
         self.isUserInteractionEnabled = true
         self.isMultipleTouchEnabled = false
-        let gestureRecognizer = UITapGestureRecognizer(target: self.gestureHandler,
-                                                       action: #selector(HyperLabelGestureHandler.handleTapGesture))
+        let gestureRecognizer = UITapGestureRecognizer(target: self.presenter,
+                                                       action: #selector(HyperLabelPresenter.handleTapGesture))
         self.addGestureRecognizer(gestureRecognizer)
     }
 
@@ -56,21 +56,21 @@ public final class HyperLabel: UILabel {
 
     public override var text: String? {
         didSet {
-            self.gestureHandler.removeAllLinks()
+            self.presenter.removeAllLinks()
         }
     }
 
     public override var attributedText: NSAttributedString? {
         didSet {
-            self.gestureHandler.removeAllLinks()
+            self.presenter.removeAllLinks()
         }
     }
 
     // MARK: - Public API
 
     public var extendsLinkTouchArea: Bool {
-        get { return self.gestureHandler.extendsLinkTouchArea }
-        set { self.gestureHandler.extendsLinkTouchArea = newValue }
+        get { return self.presenter.extendsLinkTouchArea }
+        set { self.presenter.extendsLinkTouchArea = newValue }
     }
 
     public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
@@ -81,7 +81,7 @@ public final class HyperLabel: UILabel {
     public func addLink(withRange range: Range<String.Index>,
                         accessibilityIdentifier: String? = nil,
                         handler: @escaping () -> Void) {
-        self.gestureHandler.addLink(addLinkWithRange: range,
+        self.presenter.addLink(addLinkWithRange: range,
                                     accessibilityIdentifier: accessibilityIdentifier,
                                     withHandler: handler)
         super.attributedText = self.attributedText.map {
@@ -92,7 +92,7 @@ public final class HyperLabel: UILabel {
     // UIAccessibilityContainer
 
     public override var accessibilityElements: [Any]? {
-        get { return self.gestureHandler.accessibilityElements }
+        get { return self.presenter.accessibilityElements }
         set { fatalError("Setting accessibility elements is forbidden") }
     }
 }

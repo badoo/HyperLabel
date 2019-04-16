@@ -23,7 +23,7 @@
 
 import UIKit
 
-public final class HyperLabelGestureHandler {
+public final class HyperLabelPresenter {
 
     // MARK: - Type declarations
 
@@ -93,13 +93,13 @@ public final class HyperLabelGestureHandler {
         return result
     }
 
+    // MARK: - Private methods
+
     private func rect(forRange range: Range<String.Index>) -> CGRect {
         guard let view = self.textView else { return .zero }
         self.layoutInfoProvider.update(textContainerData: view)
         return self.layoutInfoProvider.rect(forRange: range)
     }
-
-    // MARK: - Private methods
 
     private var _containerAccessibilityElement: UIAccessibilityElement?
     private var containerAccessibilityElement: UIAccessibilityElement? {
