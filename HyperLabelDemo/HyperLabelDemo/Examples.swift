@@ -23,17 +23,9 @@
 
 import UIKit
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        let examplesViewController = ExampleListViewController(examples: .makeExamples())
-        window.rootViewController = UINavigationController(rootViewController: examplesViewController)
-        window.makeKeyAndVisible()
-        self.window = window
-        return true
+extension Array where Element == LabelExample {
+    static func makeExamples() -> [LabelExample] {
+        return [
+        ]
     }
 }
