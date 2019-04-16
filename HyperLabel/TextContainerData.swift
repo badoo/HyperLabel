@@ -23,12 +23,14 @@
 
 import UIKit
 
+@objc
 public protocol TextContainerData {
     var font: UIFont! { get }
-    var attributedText: NSAttributedString? { get }
+    @objc var text: String? { get }
+    @objc var attributedText: NSAttributedString? { get set }
     var lineBreakMode: NSLineBreakMode { get }
     var numberOfLines: Int { get }
-    var bounds: CGRect { get }
+    @objc var bounds: CGRect { get }
 }
 
 extension UILabel: TextContainerData {}
