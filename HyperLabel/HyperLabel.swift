@@ -78,12 +78,8 @@ public final class HyperLabel: UILabel {
         set { self.textStyler.linkAttributes = newValue }
     }
 
-    public func addLink(withRange range: Range<String.Index>, handler: @escaping () -> Void) {
-        self.addLink(withRange: range, accessibilityIdentifier: nil, handler: handler)
-    }
-
     public func addLink(withRange range: Range<String.Index>,
-                        accessibilityIdentifier: String?,
+                        accessibilityIdentifier: String? = nil,
                         handler: @escaping () -> Void) {
         self.gestureHandler.addLink(addLinkWithRange: range,
                                     accessibilityIdentifier: accessibilityIdentifier,
