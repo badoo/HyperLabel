@@ -50,7 +50,7 @@ final class TextLayoutInfoProvider {
         self.textContainer.lineFragmentPadding = 0
         self.textContainer.lineBreakMode = data.lineBreakMode
         self.textContainer.maximumNumberOfLines = data.numberOfLines
-        self.textContainer.size = data.size
+        self.textContainer.size = data.bounds.size
     }
 
     func indexOfCharacter(atPoint point: CGPoint) -> String.Index? {

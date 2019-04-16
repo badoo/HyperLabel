@@ -21,12 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import UIKit
 
 public protocol TextContainerData {
     var font: UIFont! { get }
     var attributedText: NSAttributedString? { get }
     var lineBreakMode: NSLineBreakMode { get }
     var numberOfLines: Int { get }
-    var size: CGSize { get }
+    var bounds: CGRect { get }
 }
+
+extension UILabel: TextContainerData {}

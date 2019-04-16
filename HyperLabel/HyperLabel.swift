@@ -96,9 +96,3 @@ public final class HyperLabel: UILabel {
         set { fatalError("Setting accessibility elements is forbidden") }
     }
 }
-
-extension HyperLabel: TextContainerData {
-    public var size: CGSize {
-        return self.bounds.size
-    }
-}
