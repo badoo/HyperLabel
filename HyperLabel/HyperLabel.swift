@@ -23,12 +23,12 @@
 
 import UIKit
 
-public final class HyperLabel: UILabel, AttributedTextContainer {
+public final class HyperLabel: UILabel {
 
     // MARK: - Private properties
 
     private let gestureHandler = HyperLabelGestureHandler()
-    private let textStyler = HyperLabelTextStyler()
+    private var textStyler = HyperLabelTextStyler()
 
     // MARK: - Instantiation
 
@@ -44,11 +44,11 @@ public final class HyperLabel: UILabel, AttributedTextContainer {
 
     private func commonInit() {
         self.isAccessibilityElement = false
-        self.textStyler.container = self
         self.gestureHandler.textView = self
         self.isUserInteractionEnabled = true
         self.isMultipleTouchEnabled = false
-        let gestureRecognizer = UITapGestureRecognizer(target: self.gestureHandler, action: #selector(HyperLabelGestureHandler.handleTapGesture))
+        let gestureRecognizer = UITapGestureRecognizer(target: self.gestureHandler,
+                                                       action: #selector(HyperLabelGestureHandler.handleTapGesture))
         self.addGestureRecognizer(gestureRecognizer)
     }
 
@@ -56,59 +56,52 @@ public final class HyperLabel: UILabel, AttributedTextContainer {
 
     public override var text: String? {
         didSet {
-            self.gestureHandler.removeAllLinks()
-            self.linkAccessibilityElements.removeAll()
+            self.removeLinks()
         }
     }
 
     public override var attributedText: NSAttributedString? {
         didSet {
-            self.gestureHandler.removeAllLinks()
-            self.linkAccessibilityElements.removeAll()
+            self.removeLinks()
         }
-    }
-
-    // MARK: - AttributedTextContainer
-
-    public func updateAttributedText(_ text: NSAttributedString) {
-        super.attributedText = text
     }
 
     // MARK: - Public API
 
     public var extendsLinkTouchArea: Bool {
-        get {
-            return self.gestureHandler.extendsLinkTouchArea
-        }
-        set {
-            self.gestureHandler.extendsLinkTouchArea = newValue
-        }
+        get { return self.gestureHandler.extendsLinkTouchArea }
+        set { self.gestureHandler.extendsLinkTouchArea = newValue }
     }
 
     public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
-        get {
-            return self.textStyler.linkAttributes
-        }
-        set {
-            self.textStyler.linkAttributes = newValue
-        }
+        get { return self.textStyler.linkAttributes }
+        set { self.textStyler.linkAttributes = newValue }
     }
 
     public func addLink(withRange range: Range<String.Index>, handler: @escaping () -> Void) {
         self.addLink(withRange: range, accessibilityIdentifier: nil, handler: handler)
     }
 
-    public func addLink(withRange range: Range<String.Index>, accessibilityIdentifier: String?, handler: @escaping () -> Void) {
+    public func addLink(withRange range: Range<String.Index>,
+                        accessibilityIdentifier: String?,
+                        handler: @escaping () -> Void) {
         self.gestureHandler.addLink(addLinkWithRange: range, withHandler: handler)
-        self.textStyler.applyLinkAttributes(atRange: range)
-
+        super.attributedText = self.attributedText.map {
+            self.textStyler.applyLinkAttributes(for: $0, at: range)
+        }
         if let accessibilityIdentifier = accessibilityIdentifier {
             let element = HyperAccessibilityElement(accessibilityContainer: self,
                                                     range: range,
                                                     identfier: accessibilityIdentifier)
-
             self.linkAccessibilityElements.append(element)
         }
+    }
+
+    // MARK: - Private methods
+
+    private func removeLinks() {
+        self.gestureHandler.removeAllLinks()
+        self.linkAccessibilityElements.removeAll()
     }
 
     // MARK: - UIAccessibilityContainer

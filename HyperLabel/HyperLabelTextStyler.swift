@@ -23,24 +23,16 @@
 
 import Foundation
 
-public protocol AttributedTextContainer: class {
-    var attributedText: NSAttributedString? { get }
-    func updateAttributedText(_ text: NSAttributedString)
-}
-
-public final class HyperLabelTextStyler {
-    public weak var container: AttributedTextContainer?
+public struct HyperLabelTextStyler {
     public var linkAttributes: [NSAttributedString.Key: Any] = [:]
 
-    public func applyLinkAttributes(atRange range: Range<String.Index>) {
-        guard !self.linkAttributes.isEmpty,
-            let container = self.container,
-            let attributedString = container.attributedText else { return }
-
+    public func applyLinkAttributes(for attributedString: NSAttributedString,
+                                    at range: Range<String.Index>) -> NSAttributedString {
+        guard !self.linkAttributes.isEmpty else { return attributedString }
         let mutable = attributedString.mutableCopy() as! NSMutableAttributedString
         let text = mutable.string
         let range = NSRange(range, in: text)
         mutable.addAttributes(self.linkAttributes, range: range)
-        container.updateAttributedText(mutable.copy() as! NSAttributedString)
+        return mutable.copy() as! NSAttributedString
     }
 }
