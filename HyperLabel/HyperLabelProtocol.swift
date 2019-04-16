@@ -49,24 +49,56 @@ extension HyperLabelProtocol where Self: UILabel {
     }
 
     public var extendsLinkTouchArea: Bool {
-        get { return self.presenter?.extendsLinkTouchArea ?? false }
-        set { self.presenter?.extendsLinkTouchArea = newValue }
+        get {
+            guard let presenter = self.presenter else {
+                assertionFailure("Call `initializeHyperLabel` before accessing extendsLinkTouchArea")
+                return false
+            }
+            return presenter.extendsLinkTouchArea
+        }
+        set {
+            guard let presenter = self.presenter else {
+                assertionFailure("Call `initializeHyperLabel` before setting extendsLinkTouchArea")
+                return
+            }
+            presenter.extendsLinkTouchArea = newValue
+        }
     }
 
     public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
-        get { return self.presenter?.additionalLinkAttributes ?? [:] }
-        set { self.presenter?.additionalLinkAttributes = newValue }
+        get {
+            guard let presenter = self.presenter else {
+                assertionFailure("Call `initializeHyperLabel` before accessing additionalLinkAttributes")
+                return [:]
+            }
+            return presenter.additionalLinkAttributes
+        }
+        set {
+            guard let presenter = self.presenter else {
+                assertionFailure("Call `initializeHyperLabel` before setting additionalLinkAttributes")
+                return
+            }
+            presenter.additionalLinkAttributes = newValue
+        }
     }
 
     public func addLink(withRange range: Range<String.Index>,
-                 accessibilityIdentifier: String?,
-                 handler: @escaping () -> Void) {
-        self.presenter?.addLink(addLinkWithRange: range,
-                                accessibilityIdentifier: accessibilityIdentifier,
-                                withHandler: handler)
+                        accessibilityIdentifier: String?,
+                        handler: @escaping () -> Void) {
+        guard let presenter = self.presenter else {
+            assertionFailure("Call `initializeHyperLabel` before calling addLink")
+            return
+        }
+        presenter.addLink(addLinkWithRange: range,
+                          accessibilityIdentifier: accessibilityIdentifier,
+                          withHandler: handler)
     }
 
     public func initializeHyperLabel() {
+        guard self.presenter == nil else {
+            assertionFailure("You should call `initializeHyperLabel` only once")
+            return
+        }
         self.setupForHyperLabel()
         let presenter = Presenter()
         presenter.textView = self
