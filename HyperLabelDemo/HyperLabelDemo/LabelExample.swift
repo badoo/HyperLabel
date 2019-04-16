@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 import UIKit
+import HyperLabel
 
 final class LabelExample {
     let title: String
@@ -36,6 +37,39 @@ final class LabelExample {
 extension Array where Element == LabelExample {
     static func makeExamples() -> [LabelExample] {
         return [
+            LabelExample(title: "Exact touchable area") {
+                let label = HyperLabel.makeDemoLabel()
+                label.extendsLinkTouchArea = false
+                return label
+            },
+            LabelExample(title: "Extended touchable area") {
+                HyperLabel.makeDemoLabel()
+            },
         ]
+    }
+}
+
+private extension HyperLabel {
+    static func makeDemoLabel() -> HyperLabel {
+        let label = HyperLabel()
+        label.numberOfLines = 0
+        label.additionalLinkAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.red,
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+
+        let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        label.text = text
+        let firstLinkRange = text.range(of: "consectetur adipiscing elit")!
+        label.addLink(withRange: firstLinkRange, accessibilityIdentifier: "first-link") {
+            print("first link pressed")
+        }
+
+        let secondLinkRange = text.range(of: "minim veniam")!
+        label.addLink(withRange: secondLinkRange, accessibilityIdentifier: "second-link") {
+            print("second link pressed")
+        }
+
+        return label
     }
 }
