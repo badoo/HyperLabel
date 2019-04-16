@@ -23,9 +23,36 @@
 
 import UIKit
 
-extension Array where Element == LabelExample {
-    static func makeExamples() -> [LabelExample] {
-        return [
-        ]
+final class DemoViewController: UIViewController {
+
+    // MARK: - Private properties
+
+    private let demoView: UIView
+
+    // MARK: - Instantiation
+
+    init(demoView: UIView) {
+        self.demoView = demoView
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
+
+        self.demoView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.demoView)
+
+        NSLayoutConstraint.activate([
+            self.demoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30),
+            self.demoView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.demoView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
     }
 }

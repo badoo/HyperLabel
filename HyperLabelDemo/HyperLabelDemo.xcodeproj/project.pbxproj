@@ -13,7 +13,8 @@
 		26F88A61226629CF00549C30 /* HyperLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F88A5C226629BE00549C30 /* HyperLabel.framework */; };
 		26F88A62226629CF00549C30 /* HyperLabel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26F88A5C226629BE00549C30 /* HyperLabel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		26F88A6722662B6C00549C30 /* ExampleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F88A6622662B6C00549C30 /* ExampleListViewController.swift */; };
-		26F88A6922662DC600549C30 /* Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F88A6822662DC600549C30 /* Examples.swift */; };
+		26F88A6922662DC600549C30 /* LabelExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F88A6822662DC600549C30 /* LabelExample.swift */; };
+		26F88A6B22662EA100549C30 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F88A6A22662EA100549C30 /* DemoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +70,8 @@
 		26F88A502266285900549C30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26F88A56226629BE00549C30 /* HyperLabel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HyperLabel.xcodeproj; path = ../HyperLabel.xcodeproj; sourceTree = "<group>"; };
 		26F88A6622662B6C00549C30 /* ExampleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleListViewController.swift; sourceTree = "<group>"; };
-		26F88A6822662DC600549C30 /* Examples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
+		26F88A6822662DC600549C30 /* LabelExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelExample.swift; sourceTree = "<group>"; };
+		26F88A6A22662EA100549C30 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +108,8 @@
 			children = (
 				26F88A442266285700549C30 /* AppDelegate.swift */,
 				26F88A6622662B6C00549C30 /* ExampleListViewController.swift */,
-				26F88A6822662DC600549C30 /* Examples.swift */,
+				26F88A6A22662EA100549C30 /* DemoViewController.swift */,
+				26F88A6822662DC600549C30 /* LabelExample.swift */,
 				26F88A4B2266285900549C30 /* Assets.xcassets */,
 				26F88A4D2266285900549C30 /* LaunchScreen.storyboard */,
 				26F88A502266285900549C30 /* Info.plist */,
@@ -220,8 +223,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				26F88A452266285700549C30 /* AppDelegate.swift in Sources */,
-				26F88A6922662DC600549C30 /* Examples.swift in Sources */,
+				26F88A6922662DC600549C30 /* LabelExample.swift in Sources */,
 				26F88A6722662B6C00549C30 /* ExampleListViewController.swift in Sources */,
+				26F88A6B22662EA100549C30 /* DemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

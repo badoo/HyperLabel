@@ -24,16 +24,6 @@
 
 import UIKit
 
-final class LabelExample {
-    let title: String
-    let factory: () -> UIView
-
-    init(title: String, factory: @escaping () -> UIView) {
-        self.title = title
-        self.factory = factory
-    }
-}
-
 final class ExampleListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - Private properties
@@ -86,6 +76,12 @@ final class ExampleListViewController: UIViewController, UITableViewDataSource, 
     // MARK: - UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let example = self.examples[indexPath.row]
+        let demoView = example.factory()
+        let demoViewController = DemoViewController(demoView: demoView)
+        demoViewController.title = example.title
+        self.navigationController!.pushViewController(demoViewController, animated: true)
     }
 }
 
