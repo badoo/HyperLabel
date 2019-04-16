@@ -56,13 +56,13 @@ public final class HyperLabel: UILabel {
 
     public override var text: String? {
         didSet {
-            self.removeLinks()
+            self.gestureHandler.removeAllLinks()
         }
     }
 
     public override var attributedText: NSAttributedString? {
         didSet {
-            self.removeLinks()
+            self.gestureHandler.removeAllLinks()
         }
     }
 
@@ -85,61 +85,19 @@ public final class HyperLabel: UILabel {
     public func addLink(withRange range: Range<String.Index>,
                         accessibilityIdentifier: String?,
                         handler: @escaping () -> Void) {
-        self.gestureHandler.addLink(addLinkWithRange: range, withHandler: handler)
+        self.gestureHandler.addLink(addLinkWithRange: range,
+                                    accessibilityIdentifier: accessibilityIdentifier,
+                                    withHandler: handler)
         super.attributedText = self.attributedText.map {
             self.textStyler.applyLinkAttributes(for: $0, at: range)
         }
-        if let accessibilityIdentifier = accessibilityIdentifier {
-            let element = LinkAccessibilityElement(accessibilityContainer: self,
-                                                   range: range,
-                                                   identfier: accessibilityIdentifier)
-            self.linkAccessibilityElements.append(element)
-        }
     }
 
-    // MARK: - Private methods
+    // UIAccessibilityContainer
 
-    private func removeLinks() {
-        self.gestureHandler.removeAllLinks()
-        self.linkAccessibilityElements.removeAll()
-    }
-
-    // MARK: - UIAccessibilityContainer
-
-    private lazy var accessibilityElement: UIAccessibilityElement = {
-        let element = UIAccessibilityElement(accessibilityContainer: self)
-        element.accessibilityTraits = UIAccessibilityTraits.staticText
-        return element
-    }()
-
-    private var linkAccessibilityElements: [LinkAccessibilityElement] = []
-
-    public override func accessibilityElementCount() -> Int {
-        return self.linkAccessibilityElements.count + 1
-    }
-
-    public override func accessibilityElement(at index: Int) -> Any? {
-        if index < self.linkAccessibilityElements.count && index >= 0 {
-            let element = self.linkAccessibilityElements[index]
-            let frame = self.gestureHandler.rect(forRange: element.range)
-            element.accessibilityFrameInContainerSpace = frame
-            return element
-        }
-
-        let element = self.accessibilityElement
-        element.accessibilityFrameInContainerSpace = self.bounds
-        element.accessibilityIdentifier = self.accessibilityIdentifier
-        element.accessibilityValue = self.text
-
-        return element
-    }
-
-    public override func index(ofAccessibilityElement element: Any) -> Int {
-        guard let accessibilityElement = element as? UIAccessibilityElement else { return NSNotFound }
-        guard let index = self.linkAccessibilityElements.index(where: { accessibilityElement.accessibilityIdentifier == $0.accessibilityIdentifier }) else {
-            return self.linkAccessibilityElements.count + 1
-        }
-        return index
+    public override var accessibilityElements: [Any]? {
+        get { return self.gestureHandler.accessibilityElements }
+        set { fatalError("Setting accessibility elements is forbidden") }
     }
 }
 

@@ -29,8 +29,12 @@ public final class HyperLabelGestureHandler {
 
     private final class LinkItem {
         let handler: Handler
-        init(handler: @escaping Handler) {
+        let accessibilityElement: LinkAccessibilityElement?
+
+        init(handler: @escaping Handler,
+             accessibilityElement: LinkAccessibilityElement?) {
             self.handler = handler
+            self.accessibilityElement = accessibilityElement
         }
     }
 
@@ -49,8 +53,12 @@ public final class HyperLabelGestureHandler {
     public weak var textView: TextView?
 
     public func addLink(addLinkWithRange range: Range<String.Index>,
+                        accessibilityIdentifier: String?,
                         withHandler handler: @escaping Handler) {
-        let item = LinkItem(handler: handler)
+        let accessibilityElement = accessibilityIdentifier.flatMap {
+            self.makeAccessibilityElement(range: range, accessibilityIdentifier: $0)
+        }
+        let item = LinkItem(handler: handler, accessibilityElement: accessibilityElement)
         self.linkRegistry.setValue(value: item, forRange: range)
     }
 
@@ -69,13 +77,37 @@ public final class HyperLabelGestureHandler {
         handler()
     }
 
-    public func rect(forRange range: Range<String.Index>) -> CGRect {
+    public var accessibilityElements: [UIAccessibilityElement] {
+        var result: [UIAccessibilityElement] = []
+        if let textView = self.textView, let container = self.containerAccessibilityElement {
+            container.accessibilityFrameInContainerSpace = textView.bounds
+            container.accessibilityValue = textView.attributedText?.string
+            container.accessibilityIdentifier = textView.accessibilityIdentifier
+            result.append(container)
+        }
+        for item in self.linkRegistry.values {
+            guard let element = item.accessibilityElement else { continue }
+            element.accessibilityFrameInContainerSpace = self.rect(forRange: element.range)
+        }
+        return result
+    }
+
+    private func rect(forRange range: Range<String.Index>) -> CGRect {
         guard let view = self.textView else { return .zero }
         self.indexFinder.update(textContainerData: view)
         return self.indexFinder.rect(forRange: range)
     }
 
     // MARK: - Private methods
+
+    private var _containerAccessibilityElement: UIAccessibilityElement?
+    private var containerAccessibilityElement: UIAccessibilityElement? {
+        if let element = self._containerAccessibilityElement {
+            return element
+        }
+        self._containerAccessibilityElement = self.makeContainerAccessibilityElement()
+        return self._containerAccessibilityElement
+    }
 
     private func handler(nearPoint point: CGPoint) -> Handler? {
         if let handler = self.handler(atPoint: point) {
@@ -91,6 +123,21 @@ public final class HyperLabelGestureHandler {
     private func handler(atPoint point: CGPoint) -> Handler? {
         guard let index = self.indexFinder.indexOfCharacter(atPoint: point) else { return nil }
         return self.linkRegistry.value(at: index)?.handler
+    }
+
+    private func makeAccessibilityElement(range: Range<String.Index>,
+                                          accessibilityIdentifier: String) -> LinkAccessibilityElement? {
+        guard let container = self.textView else { return nil }
+        return LinkAccessibilityElement(accessibilityContainer: container,
+                                        range: range,
+                                        identfier: accessibilityIdentifier)
+    }
+
+    private func makeContainerAccessibilityElement() -> UIAccessibilityElement? {
+        guard let container = self.textView else { return nil }
+        let element = UIAccessibilityElement(accessibilityContainer: container)
+        element.accessibilityTraits = .staticText
+        return element
     }
 }
 

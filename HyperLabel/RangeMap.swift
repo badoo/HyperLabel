@@ -21,22 +21,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-public struct RangeMap<Index: Comparable, Value> {
+struct RangeMap<Index: Comparable, Value> {
+
     private typealias Entry = (range: Range<Index>, value: Value)
-    private var array: [Entry] = []
-    public init() {}
-    public mutating func setValue(value: Value, forRange range: Range<Index>) {
+    private var storage: [Entry] = []
+
+    init() {}
+
+    mutating func setValue(value: Value, forRange range: Range<Index>) {
         let entry = (range, value)
-        self.array.append(entry)
+        self.storage.append(entry)
     }
-    public func value(at index: Index) -> Value? {
-        for (range, value) in self.array where range.contains(index) {
+
+    func value(at index: Index) -> Value? {
+        for (range, value) in self.storage where range.contains(index) {
             return value
         }
         return nil
     }
 
-    public mutating func clear() {
-        self.array.removeAll()
+    var values: [Value] {
+        return self.storage.map { _, value in value }
+    }
+
+    mutating func clear() {
+        self.storage.removeAll()
     }
 }
