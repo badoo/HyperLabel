@@ -23,55 +23,15 @@
 
 import UIKit
 
-public final class HyperLabel: UILabel {
-
-    // MARK: - Type declarations
-
-    private typealias Presenter = HyperLabelPresenter<HyperLabel>
-
-    // MARK: - Private properties
-
-    private let presenter = Presenter()
-
-    // MARK: - Instantiation
+public final class HyperLabel: UILabel, HyperLabelProtocol {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.commonInit()
+        self.initializeHyperLabel()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.commonInit()
-    }
-
-    private func commonInit() {
-        self.isAccessibilityElement = false
-        self.presenter.textView = self
-        self.isUserInteractionEnabled = true
-        self.isMultipleTouchEnabled = false
-        let gestureRecognizer = UITapGestureRecognizer(target: self.presenter,
-                                                       action: #selector(Presenter.handleTapGesture))
-        self.addGestureRecognizer(gestureRecognizer)
-    }
-
-    // MARK: - Public API
-
-    public var extendsLinkTouchArea: Bool {
-        get { return self.presenter.extendsLinkTouchArea }
-        set { self.presenter.extendsLinkTouchArea = newValue }
-    }
-
-    public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
-        get { return self.presenter.additionalLinkAttributes }
-        set { self.presenter.additionalLinkAttributes = newValue }
-    }
-
-    public func addLink(withRange range: Range<String.Index>,
-                        accessibilityIdentifier: String? = nil,
-                        handler: @escaping () -> Void) {
-        self.presenter.addLink(addLinkWithRange: range,
-                                    accessibilityIdentifier: accessibilityIdentifier,
-                                    withHandler: handler)
+        self.initializeHyperLabel()
     }
 }
