@@ -44,7 +44,7 @@ public final class HyperLabelGestureHandler {
     // MARK: - Private properties
 
     private var linkRegistry = RangeMap<String.Index, LinkItem>()
-    private let indexFinder = CharacterIndexFinder()
+    private let layoutInfoProvider = TextLayoutInfoProvider()
 
     // MARK: - Public API
 
@@ -71,7 +71,7 @@ public final class HyperLabelGestureHandler {
         guard sender.state == .ended else { return }
         guard let view = self.textView else { return }
         let point = sender.location(in: view)
-        self.indexFinder.update(textContainerData: view)
+        self.layoutInfoProvider.update(textContainerData: view)
         let handlerProvider = self.extendsLinkTouchArea ? self.handler(nearPoint:) : self.handler(atPoint:)
         guard let handler = handlerProvider(point) else { return }
         handler()
@@ -95,8 +95,8 @@ public final class HyperLabelGestureHandler {
 
     private func rect(forRange range: Range<String.Index>) -> CGRect {
         guard let view = self.textView else { return .zero }
-        self.indexFinder.update(textContainerData: view)
-        return self.indexFinder.rect(forRange: range)
+        self.layoutInfoProvider.update(textContainerData: view)
+        return self.layoutInfoProvider.rect(forRange: range)
     }
 
     // MARK: - Private methods
@@ -122,7 +122,7 @@ public final class HyperLabelGestureHandler {
     }
 
     private func handler(atPoint point: CGPoint) -> Handler? {
-        guard let index = self.indexFinder.indexOfCharacter(atPoint: point) else { return nil }
+        guard let index = self.layoutInfoProvider.indexOfCharacter(atPoint: point) else { return nil }
         return self.linkRegistry.value(at: index)?.handler
     }
 

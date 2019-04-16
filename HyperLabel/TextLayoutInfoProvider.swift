@@ -23,7 +23,7 @@
 
 import Foundation
 
-public final class CharacterIndexFinder {
+public final class TextLayoutInfoProvider {
 
     private let layoutManager: NSLayoutManager
     private let textContainer: NSTextContainer
