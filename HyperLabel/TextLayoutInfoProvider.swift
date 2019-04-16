@@ -23,13 +23,13 @@
 
 import Foundation
 
-public final class TextLayoutInfoProvider {
+final class TextLayoutInfoProvider {
 
     private let layoutManager: NSLayoutManager
     private let textContainer: NSTextContainer
     private let textStorage: NSTextStorage
 
-    public init() {
+    init() {
         self.layoutManager = NSLayoutManager()
         self.textContainer = NSTextContainer()
         self.textStorage = NSTextStorage()
@@ -38,7 +38,7 @@ public final class TextLayoutInfoProvider {
         self.textStorage.addLayoutManager(self.layoutManager)
     }
 
-    public func update(textContainerData data: TextContainerData) {
+    func update(textContainerData data: TextContainerData) {
         var attributedText = NSAttributedString()
         if let text = data.attributedText {
             attributedText = data.font.map(text.applying(defaultFont:)) ?? text
@@ -53,7 +53,7 @@ public final class TextLayoutInfoProvider {
         self.textContainer.size = data.size
     }
 
-    public func indexOfCharacter(atPoint point: CGPoint) -> String.Index? {
+    func indexOfCharacter(atPoint point: CGPoint) -> String.Index? {
         guard self.textStorage.length > 0 else { return nil }
         let usedRect = self.layoutManager.usedRect(for: self.textContainer)
         guard usedRect.contains(point) else { return nil }
@@ -66,7 +66,7 @@ public final class TextLayoutInfoProvider {
         #endif
     }
 
-    public func rect(forRange range: Range<String.Index>) -> CGRect {
+    func rect(forRange range: Range<String.Index>) -> CGRect {
         return self.layoutManager.boundingRect(forGlyphRange: NSRange(range, in: self.textStorage.string),
                                                in: self.textContainer)
     }
