@@ -90,9 +90,9 @@ public final class HyperLabel: UILabel {
             self.textStyler.applyLinkAttributes(for: $0, at: range)
         }
         if let accessibilityIdentifier = accessibilityIdentifier {
-            let element = HyperAccessibilityElement(accessibilityContainer: self,
-                                                    range: range,
-                                                    identfier: accessibilityIdentifier)
+            let element = LinkAccessibilityElement(accessibilityContainer: self,
+                                                   range: range,
+                                                   identfier: accessibilityIdentifier)
             self.linkAccessibilityElements.append(element)
         }
     }
@@ -112,7 +112,7 @@ public final class HyperLabel: UILabel {
         return element
     }()
 
-    private var linkAccessibilityElements: [HyperAccessibilityElement] = []
+    private var linkAccessibilityElements: [LinkAccessibilityElement] = []
 
     public override func accessibilityElementCount() -> Int {
         return self.linkAccessibilityElements.count + 1
@@ -141,17 +141,6 @@ public final class HyperLabel: UILabel {
         }
         return index
     }
-}
-
-private class HyperAccessibilityElement: UIAccessibilityElement {
-    init(accessibilityContainer container: Any, range: Range<String.Index>, identfier: String) {
-        self.range = range
-        super.init(accessibilityContainer: container)
-        self.accessibilityIdentifier = identfier
-        self.accessibilityTraits = UIAccessibilityTraits.link
-    }
-
-    let range: Range<String.Index>
 }
 
 extension HyperLabel: TextContainerData {

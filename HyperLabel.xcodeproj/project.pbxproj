@@ -16,6 +16,7 @@
 		268F29A32260E83A004E97D6 /* HyperLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 268F29992260E83A004E97D6 /* HyperLabel.framework */; };
 		268F29A82260E83A004E97D6 /* HyperLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F29A72260E83A004E97D6 /* HyperLabelTests.swift */; };
 		268F29AA2260E83A004E97D6 /* HyperLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 268F299C2260E83A004E97D6 /* HyperLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		26F88A372265595A00549C30 /* LinkAccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F88A362265595A00549C30 /* LinkAccessibilityElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		268F29A22260E83A004E97D6 /* HyperLabelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperLabelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		268F29A72260E83A004E97D6 /* HyperLabelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperLabelTests.swift; sourceTree = "<group>"; };
 		268F29A92260E83A004E97D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		26F88A362265595A00549C30 /* LinkAccessibilityElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAccessibilityElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				267498842260F8570000AA3D /* CharacterIndexFinder.swift */,
+				26F88A362265595A00549C30 /* LinkAccessibilityElement.swift */,
 				267498802260F8570000AA3D /* HyperLabel.swift */,
 				267498812260F8570000AA3D /* HyperLabelGestureHandler.swift */,
 				267498822260F8570000AA3D /* HyperLabelTextStyler.swift */,
@@ -213,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F88A372265595A00549C30 /* LinkAccessibilityElement.swift in Sources */,
 				267498892260F8570000AA3D /* RangeMap.swift in Sources */,
 				267498872260F8570000AA3D /* HyperLabelGestureHandler.swift in Sources */,
 				267498882260F8570000AA3D /* HyperLabelTextStyler.swift in Sources */,
