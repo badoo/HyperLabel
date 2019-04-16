@@ -48,6 +48,10 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     private var shouldReactToTextChange = true
 
+    // MARK: - Instantiation
+
+    public init() {}
+
     // MARK: - Public API
 
     public var extendsLinkTouchArea: Bool = true
