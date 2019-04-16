@@ -58,7 +58,12 @@ public final class CharacterIndexFinder {
         let usedRect = self.layoutManager.usedRect(for: self.textContainer)
         guard usedRect.contains(point) else { return nil }
         let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
+        #if swift(>=4.2)
+        return String.Index(utf16Offset: index,
+                            in: self.textStorage.string)
+        #else
         return String.Index(encodedOffset: index)
+        #endif
     }
 
     public func rect(forRange range: Range<String.Index>) -> CGRect {
