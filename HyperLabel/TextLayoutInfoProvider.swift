@@ -50,7 +50,7 @@ final class TextLayoutInfoProvider {
         self.textContainer.lineFragmentPadding = 0
         self.textContainer.lineBreakMode = data.lineBreakMode
         self.textContainer.maximumNumberOfLines = data.numberOfLines
-        self.textContainer.size = data.bounds.size
+        self.textContainer.size = data.size
     }
 
     func indexOfCharacter(atPoint point: CGPoint) -> String.Index? {
@@ -58,7 +58,7 @@ final class TextLayoutInfoProvider {
         let usedRect = self.layoutManager.usedRect(for: self.textContainer)
         guard usedRect.contains(point) else { return nil }
         let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
-        #if swift(>=4.2)
+        #if swift(>=5)
         return String.Index(utf16Offset: index,
                             in: self.textStorage.string)
         #else

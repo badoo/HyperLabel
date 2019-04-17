@@ -30,7 +30,11 @@ public protocol TextContainerData {
     @objc var attributedText: NSAttributedString? { get set }
     var lineBreakMode: NSLineBreakMode { get }
     var numberOfLines: Int { get }
-    @objc var bounds: CGRect { get }
+    var size: CGSize { get }
 }
 
-extension UILabel: TextContainerData {}
+extension UILabel: TextContainerData {
+    public var size: CGSize {
+        return self.bounds.size
+    }
+}
