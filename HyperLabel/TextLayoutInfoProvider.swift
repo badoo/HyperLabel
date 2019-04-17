@@ -67,8 +67,24 @@ final class TextLayoutInfoProvider {
     }
 
     func rect(forRange range: Range<String.Index>) -> CGRect {
-        return self.layoutManager.boundingRect(forGlyphRange: NSRange(range, in: self.textStorage.string),
-                                               in: self.textContainer)
+        var result: CGRect?
+        let nsRange = NSRange(range, in: self.textStorage.string)
+        self.layoutManager.enumerateEnclosingRects(
+            forGlyphRange: nsRange,
+            withinSelectedGlyphRange: .empty,
+            in: self.textContainer,
+            using: { rect, stop in
+                result = rect
+                stop.pointee = true
+            }
+        )
+        return result ?? .zero
+    }
+}
+
+private extension NSRange {
+    static var empty: NSRange {
+        return NSRange(location: NSNotFound, length: 0)
     }
 }
 
