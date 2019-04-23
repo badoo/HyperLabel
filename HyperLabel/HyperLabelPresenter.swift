@@ -127,7 +127,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
                 guard let self = self, change.oldValue != change.newValue else { return }
                 self.didChangeText()
             },
-            textView.observe(\.bounds, options: [.new, .old]) { [weak self] textView, change in
+            textView.observe(\.bounds, options: [.new, .old, .initial]) { [weak self] textView, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
                 textView.accessibilityElements = self.makeAccessibilityElements()
             }
