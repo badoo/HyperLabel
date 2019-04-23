@@ -83,6 +83,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         let updatedAttributedText = self.textStyler.applyLinkAttributes(for: attributedText,
                                                                         at: range)
         self.updateTextWithoutObserving(attributedText: updatedAttributedText)
+        self.reloadAccessibilityElements()
     }
 
     @objc
@@ -119,17 +120,17 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
             return
         }
         self.textViewObservers = [
-            textView.observe(\.text, options: [.new, .old]) { [weak self] textView, change in
+            textView.observe(\.text, options: [.new, .old]) { [weak self] _, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
                 self.didChangeText()
             },
-            textView.observe(\.attributedText, options: [.new, .old]) { [weak self] textView, change in
+            textView.observe(\.attributedText, options: [.new, .old]) { [weak self] _, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
                 self.didChangeText()
             },
-            textView.observe(\.bounds, options: [.new, .old, .initial]) { [weak self] textView, change in
+            textView.observe(\.bounds, options: [.new, .old, .initial]) { [weak self] _, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
-                textView.accessibilityElements = self.makeAccessibilityElements()
+                self.reloadAccessibilityElements()
             }
         ]
     }
@@ -199,6 +200,14 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         let element = UIAccessibilityElement(accessibilityContainer: container)
         element.accessibilityTraits = .staticText
         return element
+    }
+
+    private func reloadAccessibilityElements() {
+        guard let textView = self.textView else {
+            assertionFailure("textView is nil")
+            return
+        }
+        textView.accessibilityElements = self.makeAccessibilityElements()
     }
 }
 
