@@ -43,9 +43,6 @@ extension Array where Element == LabelExample {
             LabelExample(title: "Extended touchable area") {
                 HyperLabel.makeDemoLabel(extendLinkTouchArea: true)
             },
-            LabelExample(title: "Any UILabel subclass") {
-                CustomLabelSubclass.makeDemoLabel()
-            },
         ]
     }
 }
@@ -57,37 +54,6 @@ private extension HyperLabel {
         let label = HyperLabel()
         label.numberOfLines = 0
         label.extendsLinkTouchArea = extendLinkTouchArea
-        label.additionalLinkAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.red,
-            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-
-        let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        label.text = text
-        let firstLinkRange = text.range(of: "consectetur adipiscing elit")!
-        label.addLink(withRange: firstLinkRange, accessibilityIdentifier: "first-link") {
-            print("first link pressed")
-        }
-
-        let secondLinkRange = text.range(of: "minim veniam")!
-        label.addLink(withRange: secondLinkRange, accessibilityIdentifier: "second-link") {
-            print("second link pressed")
-        }
-
-        return label
-    }
-}
-
-// MARK: - Custom subclass example
-
-private final class CustomLabelSubclass: UILabel {}
-extension CustomLabelSubclass: HyperLabelProtocol {}
-
-private extension CustomLabelSubclass {
-    static func makeDemoLabel() -> CustomLabelSubclass {
-        let label = CustomLabelSubclass()
-        label.initializeHyperLabel()
-        label.numberOfLines = 0
         label.additionalLinkAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor.red,
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
