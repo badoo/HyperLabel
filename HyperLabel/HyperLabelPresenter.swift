@@ -130,7 +130,9 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
             },
             textView.observe(\.bounds, options: [.new, .old, .initial]) { [weak self] _, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
-                self.reloadAccessibilityElements()
+                DispatchQueue.main.async {
+                    self.reloadAccessibilityElements()
+                }
             }
         ]
     }
