@@ -26,24 +26,45 @@ import XCTest
 
 class HyperLabelTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override func setUp() { }
+
+    override func tearDown() { }
+
+    func test_GivenTextWithSpecialCharacter_WhenAddLink_ThenRangesAreCorrect() {
+        // Given
+        // '’' is UTF16?
+        let exampleText = "You’ll be happy one day."
+        let sut: HyperLabel = {
+            let hyperLabel = HyperLabel()
+            hyperLabel.numberOfLines = 0
+            hyperLabel.text = exampleText
+            hyperLabel.additionalLinkAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue]
+            return hyperLabel
+        }()
+
+        // When
+        let range = exampleText.range(of: "day")!
+
+        // Then
+        sut.addLink(withRange: range) {}
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    func test_GivenSimpleText_WhenAddLink_ThenRangesAreCorrect() {
+        // Given
+        let exampleText = "Look's good with no special characters."
+        let sut: HyperLabel = {
+            let hyperLabel = HyperLabel()
+            hyperLabel.numberOfLines = 0
+            hyperLabel.text = exampleText
+            hyperLabel.additionalLinkAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue]
+            return hyperLabel
+        }()
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+        // When
+        let range = exampleText.range(of: "characters")!
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        // Then
+        sut.addLink(withRange: range) {}
     }
 
 }
