@@ -59,8 +59,9 @@ final class TextLayoutInfoProvider {
         guard usedRect.contains(point) else { return nil }
         let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
         #if compiler(>=5)
+        let bridgedString = self.textStorage.string + ""
         return String.Index(utf16Offset: index,
-                            in: self.textStorage.string)
+                            in: bridgedString)
         #else
         return String.Index(encodedOffset: index)
         #endif
@@ -68,7 +69,8 @@ final class TextLayoutInfoProvider {
 
     func rect(forRange range: Range<String.Index>) -> CGRect {
         var result: CGRect?
-        let nsRange = NSRange(range, in: self.textStorage.string)
+        let bridgedString = self.textStorage.string + ""
+        let nsRange = NSRange(range, in: bridgedString)
         self.layoutManager.enumerateEnclosingRects(
             forGlyphRange: nsRange,
             withinSelectedGlyphRange: .empty,
