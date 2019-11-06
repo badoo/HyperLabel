@@ -34,8 +34,8 @@ class HyperLabelTests: XCTestCase {
         // Given
         // '’' is UTF16?
         let exampleText = "You’ll be happy one day."
-        let sut: HyperLabel = {
-            let hyperLabel = HyperLabel()
+        let sut: HLHyperLabel = {
+            let hyperLabel = HLHyperLabel()
             hyperLabel.numberOfLines = 0
             hyperLabel.text = exampleText
             hyperLabel.additionalLinkAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue]
@@ -52,8 +52,8 @@ class HyperLabelTests: XCTestCase {
     func test_GivenSimpleText_WhenAddLink_ThenRangesAreCorrect() {
         // Given
         let exampleText = "Look's good with no special characters."
-        let sut: HyperLabel = {
-            let hyperLabel = HyperLabel()
+        let sut: HLHyperLabel = {
+            let hyperLabel = HLHyperLabel()
             hyperLabel.numberOfLines = 0
             hyperLabel.text = exampleText
             hyperLabel.additionalLinkAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue]
