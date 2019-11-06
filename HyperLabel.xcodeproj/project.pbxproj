@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2636291B226697BD0060FDA1 /* HyperLabelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2636291A226697BD0060FDA1 /* HyperLabelProtocol.swift */; };
 		267498852260F8570000AA3D /* TextContainerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2674987F2260F8570000AA3D /* TextContainerData.swift */; };
-		267498862260F8570000AA3D /* HyperLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498802260F8570000AA3D /* HyperLabel.swift */; };
+		267498862260F8570000AA3D /* HLHyperLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498802260F8570000AA3D /* HLHyperLabel.swift */; };
 		267498872260F8570000AA3D /* HyperLabelPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498812260F8570000AA3D /* HyperLabelPresenter.swift */; };
 		267498882260F8570000AA3D /* HyperLabelTextStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498822260F8570000AA3D /* HyperLabelTextStyler.swift */; };
 		267498892260F8570000AA3D /* RangeMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267498832260F8570000AA3D /* RangeMap.swift */; };
@@ -33,7 +33,7 @@
 /* Begin PBXFileReference section */
 		2636291A226697BD0060FDA1 /* HyperLabelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperLabelProtocol.swift; sourceTree = "<group>"; };
 		2674987F2260F8570000AA3D /* TextContainerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextContainerData.swift; sourceTree = "<group>"; };
-		267498802260F8570000AA3D /* HyperLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperLabel.swift; sourceTree = "<group>"; };
+		267498802260F8570000AA3D /* HLHyperLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HLHyperLabel.swift; sourceTree = "<group>"; };
 		267498812260F8570000AA3D /* HyperLabelPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperLabelPresenter.swift; sourceTree = "<group>"; };
 		267498822260F8570000AA3D /* HyperLabelTextStyler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperLabelTextStyler.swift; sourceTree = "<group>"; };
 		267498832260F8570000AA3D /* RangeMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeMap.swift; sourceTree = "<group>"; };
@@ -89,7 +89,7 @@
 			children = (
 				267498842260F8570000AA3D /* TextLayoutInfoProvider.swift */,
 				26F88A362265595A00549C30 /* LinkAccessibilityElement.swift */,
-				267498802260F8570000AA3D /* HyperLabel.swift */,
+				267498802260F8570000AA3D /* HLHyperLabel.swift */,
 				2636291A226697BD0060FDA1 /* HyperLabelProtocol.swift */,
 				267498812260F8570000AA3D /* HyperLabelPresenter.swift */,
 				267498822260F8570000AA3D /* HyperLabelTextStyler.swift */,
@@ -227,7 +227,7 @@
 				267498852260F8570000AA3D /* TextContainerData.swift in Sources */,
 				2636291B226697BD0060FDA1 /* HyperLabelProtocol.swift in Sources */,
 				2674988A2260F8570000AA3D /* TextLayoutInfoProvider.swift in Sources */,
-				267498862260F8570000AA3D /* HyperLabel.swift in Sources */,
+				267498862260F8570000AA3D /* HLHyperLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

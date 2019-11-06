@@ -23,7 +23,7 @@
 
 import UIKit
 
-public final class HyperLabel: UILabel, HyperLabelProtocol {
+public final class HLHyperLabel: UILabel, HyperLabelProtocol {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)

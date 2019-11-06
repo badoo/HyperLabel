@@ -38,10 +38,10 @@ extension Array where Element == LabelExample {
     static func makeExamples() -> [LabelExample] {
         return [
             LabelExample(title: "Exact touchable area") {
-                HyperLabel.makeDemoLabel(extendLinkTouchArea: false)
+                HLHyperLabel.makeDemoLabel(extendLinkTouchArea: false)
             },
             LabelExample(title: "Extended touchable area") {
-                HyperLabel.makeDemoLabel(extendLinkTouchArea: true)
+                HLHyperLabel.makeDemoLabel(extendLinkTouchArea: true)
             },
         ]
     }
@@ -49,9 +49,9 @@ extension Array where Element == LabelExample {
 
 // MARK: - HyperLabel example
 
-private extension HyperLabel {
-    static func makeDemoLabel(extendLinkTouchArea: Bool) -> HyperLabel {
-        let label = HyperLabel()
+private extension HLHyperLabel {
+    static func makeDemoLabel(extendLinkTouchArea: Bool) -> HLHyperLabel {
+        let label = HLHyperLabel()
         label.numberOfLines = 0
         label.extendsLinkTouchArea = extendLinkTouchArea
         label.additionalLinkAttributes = [
