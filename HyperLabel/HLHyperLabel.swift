@@ -25,6 +25,10 @@ import UIKit
 
 public final class HLHyperLabel: UILabel, HyperLabelProtocol {
 
+    public convenience init() {
+        self.init(frame: CGRect.zero)
+    }
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.initializeHyperLabel()
