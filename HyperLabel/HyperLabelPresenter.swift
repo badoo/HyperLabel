@@ -189,8 +189,10 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
             return nil
         }
         guard let string = container.attributedText?.string else { return nil }
-        let bridgedString = string + ""
-        let value = String(bridgedString[range])
+        guard let data = string.data(using: .utf16) else { return nil }
+        guard let reconstructed = String(bytes: data, encoding: .utf16) else { return nil }
+        let original = reconstructed + ""
+        let value = String(original[range])
         return LinkAccessibilityElement(accessibilityContainer: container,
                                         range: range,
                                         value: value,

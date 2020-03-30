@@ -31,8 +31,10 @@ public struct HyperLabelTextStyler {
         guard !self.linkAttributes.isEmpty else { return attributedString }
         let mutable = attributedString.mutableCopy() as! NSMutableAttributedString
         // https://bugs.swift.org/browse/SR-11330
-        let text = mutable.string + ""
-        let range = NSRange(range, in: text)
+        guard let data = mutable.string.data(using: .utf16) else { return attributedString }
+        guard let reconstructed = String(bytes: data, encoding: .utf16) else { return attributedString }
+        let original = reconstructed + ""
+        let range = NSRange(range, in: original)
         mutable.addAttributes(self.linkAttributes, range: range)
         return mutable.copy() as! NSAttributedString
     }
