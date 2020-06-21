@@ -25,7 +25,7 @@ import UIKit
 
 final class LinkAccessibilityElement: UIAccessibilityElement {
     init(accessibilityContainer container: Any,
-         range: Range<String.Index>,
+         range: NSRange,
          value: String,
          identfier: String) {
         self.range = range
@@ -35,5 +35,5 @@ final class LinkAccessibilityElement: UIAccessibilityElement {
         self.accessibilityValue = value
     }
 
-    let range: Range<String.Index>
+    let range: NSRange
 }

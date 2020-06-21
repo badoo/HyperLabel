@@ -21,19 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-struct RangeMap<Index: Comparable, Value> {
+struct RangeMap<Value> {
 
-    private typealias Entry = (range: Range<Index>, value: Value)
+    private typealias Entry = (range: NSRange, value: Value)
     private var storage: [Entry] = []
 
     init() {}
 
-    mutating func setValue(value: Value, forRange range: Range<Index>) {
+    mutating func setValue(value: Value, forRange range: NSRange) {
         let entry = (range, value)
         self.storage.append(entry)
     }
 
-    func value(at index: Index) -> Value? {
+    func value(at index: Int) -> Value? {
         for (range, value) in self.storage where range.contains(index) {
             return value
         }

@@ -43,7 +43,7 @@ class HyperLabelTests: XCTestCase {
         }()
 
         // When
-        let range = exampleText.range(of: "day")!
+        let range = (exampleText as NSString).range(of: "day")
 
         // Then
         sut.addLink(withRange: range) {}
@@ -61,7 +61,7 @@ class HyperLabelTests: XCTestCase {
         }()
 
         // When
-        let range = exampleText.range(of: "characters")!
+        let range = (exampleText as NSString).range(of: "characters")
 
         // Then
         sut.addLink(withRange: range) {}
