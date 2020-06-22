@@ -22,7 +22,7 @@ Usage
 -----
 
 ```swift
-let label = HyperLabel()
+let label = HLHyperLabel()
 
 // Set additional attributes which will be applied for added links
 label.additionalLinkAttributes = [
@@ -34,7 +34,7 @@ label.additionalLinkAttributes = [
 label.text = "Hello world!"
 
 // Get range of the link
-let linkRange = text.range(of: "world")!
+let linkRange = (text as NSString).range(of: "world")
 
 // Add handler for range
 label.addLink(withRange: linkRange) {

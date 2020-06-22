@@ -26,13 +26,13 @@ import Foundation
 public protocol HyperLabelProtocol: AnyObject {
     var extendsLinkTouchArea: Bool { get set }
     var additionalLinkAttributes: [NSAttributedString.Key: Any] { get set }
-    func addLink(withRange range: Range<String.Index>,
+    func addLink(withRange range: NSRange,
                  accessibilityIdentifier: String?,
                  handler: @escaping () -> Void)
 }
 
 extension HyperLabelProtocol {
-    public func addLink(withRange range: Range<String.Index>, handler: @escaping () -> Void) {
+    public func addLink(withRange range: NSRange, handler: @escaping () -> Void) {
         self.addLink(withRange: range, accessibilityIdentifier: nil, handler: handler)
     }
 }
@@ -82,7 +82,7 @@ extension HyperLabelProtocol where Self: UILabel {
         }
     }
 
-    public func addLink(withRange range: Range<String.Index>,
+    public func addLink(withRange range: NSRange,
                         accessibilityIdentifier: String?,
                         handler: @escaping () -> Void) {
         guard let presenter = self.presenter else {

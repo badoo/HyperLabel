@@ -42,7 +42,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     // MARK: - Private properties
 
-    private var linkRegistry = RangeMap<String.Index, LinkItem>()
+    private var linkRegistry = RangeMap<LinkItem>()
     private let layoutInfoProvider = TextLayoutInfoProvider()
     private var textStyler = HyperLabelTextStyler()
 
@@ -67,7 +67,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         set { self.textStyler.linkAttributes = newValue }
     }
 
-    public func addLink(addLinkWithRange range: Range<String.Index>,
+    public func addLink(addLinkWithRange range: NSRange,
                         accessibilityIdentifier: String?,
                         withHandler handler: @escaping Handler) {
         guard let textView = self.textView else {
@@ -155,7 +155,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         return result
     }
 
-    private func rect(forRange range: Range<String.Index>) -> CGRect {
+    private func rect(forRange range: NSRange) -> CGRect {
         guard let view = self.textView else {
             assertionFailure("textView is nil")
             return .zero
@@ -182,21 +182,20 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         return self.linkRegistry.value(at: index)?.handler
     }
 
-    private func makeAccessibilityElement(range: Range<String.Index>,
+    private func makeAccessibilityElement(range: NSRange,
                                           accessibilityIdentifier: String) -> LinkAccessibilityElement? {
         guard let container = self.textView else {
             assertionFailure("textView is nil")
             return nil
         }
-        guard let string = container.attributedText?.string else { return nil }
-        guard let data = string.data(using: .utf16) else { return nil }
-        guard let reconstructed = String(bytes: data, encoding: .utf16) else { return nil }
-        let original = reconstructed + ""
-        let value = String(original[range])
-        return LinkAccessibilityElement(accessibilityContainer: container,
-                                        range: range,
-                                        value: value,
-                                        identfier: accessibilityIdentifier)
+        guard let string = container.attributedText?.string as NSString? else { return nil }
+        let value = string.substring(with: range)
+        return LinkAccessibilityElement(
+            accessibilityContainer: container,
+            range: range,
+            value: value,
+            identfier: accessibilityIdentifier
+        )
     }
 
     private func makeContainerAccessibilityElement() -> UIAccessibilityElement? {

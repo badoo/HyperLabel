@@ -53,30 +53,17 @@ final class TextLayoutInfoProvider {
         self.textContainer.size = data.size
     }
 
-    func indexOfCharacter(atPoint point: CGPoint) -> String.Index? {
+    func indexOfCharacter(atPoint point: CGPoint) -> Int? {
         guard self.textStorage.length > 0 else { return nil }
         let usedRect = self.layoutManager.usedRect(for: self.textContainer)
         guard usedRect.contains(point) else { return nil }
-        let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
-        #if compiler(>=5)
-        guard let data = self.textStorage.string.data(using: .utf16) else { return nil }
-        guard let reconstructed = String(bytes: data, encoding: .utf16) else { return nil }
-        let original = reconstructed + ""
-        return String.Index(utf16Offset: index,
-                            in: original)
-        #else
-        return String.Index(encodedOffset: index)
-        #endif
+        return self.layoutManager.glyphIndex(for: point, in: self.textContainer)
     }
 
-    func rect(forRange range: Range<String.Index>) -> CGRect {
+    func rect(forRange range: NSRange) -> CGRect {
         var result: CGRect?
-        guard let data = self.textStorage.string.data(using: .utf16) else { return .zero }
-        guard let reconstructed = String(bytes: data, encoding: .utf16) else { return .zero }
-        let original = reconstructed + ""
-        let nsRange = NSRange(range, in: original)
         self.layoutManager.enumerateEnclosingRects(
-            forGlyphRange: nsRange,
+            forGlyphRange: range,
             withinSelectedGlyphRange: .empty,
             in: self.textContainer,
             using: { rect, stop in
