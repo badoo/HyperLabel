@@ -61,12 +61,13 @@ private extension HLHyperLabel {
 
         let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         label.text = text
-        let firstLinkRange = text.range(of: "consectetur adipiscing elit")!
+        let nsString = text as NSString
+        let firstLinkRange = nsString.range(of: "consectetur adipiscing elit")
         label.addLink(withRange: firstLinkRange, accessibilityIdentifier: "first-link") {
             print("first link pressed")
         }
 
-        let secondLinkRange = text.range(of: "minim veniam")!
+        let secondLinkRange = nsString.range(of: "minim veniam")
         label.addLink(withRange: secondLinkRange, accessibilityIdentifier: "second-link") {
             print("second link pressed")
         }
