@@ -116,19 +116,19 @@ final class HyperLabelPresenter<TextView: UIView> where TextView: TextContainerD
 
     private var textViewObservers: [NSKeyValueObservation] = []
     private func observerTextViewChanges() {
-        guard let textView = self.textView else {
+        guard var textView = self.textView else {
             self.textViewObservers.removeAll()
             return
         }
+        textView.onTextDidChange = { [weak self] change in
+            guard let self = self, change.oldValue != change.newValue else { return }
+            self.didChangeText()
+        }
+        textView.onAttributedTextChange = { [weak self] change in
+            guard let self = self, change.oldValue != change.newValue else { return }
+            self.didChangeText()
+        }
         self.textViewObservers = [
-            textView.observe(\.text, options: [.new, .old]) { [weak self] _, change in
-                guard let self = self, change.oldValue != change.newValue else { return }
-                self.didChangeText()
-            },
-            textView.observe(\.attributedText, options: [.new, .old]) { [weak self] _, change in
-                guard let self = self, change.oldValue != change.newValue else { return }
-                self.didChangeText()
-            },
             textView.observe(\.bounds, options: [.new, .old, .initial]) { [weak self] _, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
                 self.reloadAccessibilityElements()

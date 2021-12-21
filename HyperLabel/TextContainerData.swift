@@ -23,17 +23,26 @@
 
 import UIKit
 
-@objc
+struct Change<T> {
+    let newValue: T
+    let oldValue: T
+}
+
+typealias StringChange = Change<String?>
+typealias AttributedStringChange = Change<NSAttributedString?>
+
 protocol TextContainerData {
     var font: UIFont! { get }
-    @objc var text: String? { get }
-    @objc var attributedText: NSAttributedString? { get set }
+    var text: String? { get }
+    var attributedText: NSAttributedString? { get set }
     var lineBreakMode: NSLineBreakMode { get }
     var numberOfLines: Int { get }
     var size: CGSize { get }
+    var onTextDidChange: (StringChange) -> Void { get set }
+    var onAttributedTextChange: (AttributedStringChange) -> Void { get set }
 }
 
-extension UILabel: TextContainerData {
+extension HLHyperLabel: TextContainerData {
     var size: CGSize {
         return self.bounds.size
     }

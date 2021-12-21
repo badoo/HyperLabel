@@ -38,4 +38,20 @@ public final class HLHyperLabel: UILabel, HyperLabelProtocol {
         super.init(coder: aDecoder)
         self.initializeHyperLabel()
     }
+
+    var onTextDidChange: (StringChange) -> Void = { _ in }
+
+    public override var text: String? {
+        didSet {
+            self.onTextDidChange(StringChange(newValue: self.text, oldValue: oldValue))
+        }
+    }
+
+    var onAttributedTextChange: (AttributedStringChange) -> Void = { _ in }
+
+    public override var attributedText: NSAttributedString? {
+        didSet {
+            self.onAttributedTextChange(AttributedStringChange(newValue: self.attributedText, oldValue: oldValue))
+        }
+    }
 }
