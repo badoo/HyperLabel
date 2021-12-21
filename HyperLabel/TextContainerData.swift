@@ -24,7 +24,7 @@
 import UIKit
 
 @objc
-public protocol TextContainerData {
+protocol TextContainerData {
     var font: UIFont! { get }
     @objc var text: String? { get }
     @objc var attributedText: NSAttributedString? { get set }
@@ -34,7 +34,7 @@ public protocol TextContainerData {
 }
 
 extension UILabel: TextContainerData {
-    public var size: CGSize {
+    var size: CGSize {
         return self.bounds.size
     }
 }

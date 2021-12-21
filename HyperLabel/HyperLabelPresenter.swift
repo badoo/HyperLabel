@@ -23,7 +23,7 @@
 
 import UIKit
 
-public final class HyperLabelPresenter<TextView: UIView> where TextView: TextContainerData {
+final class HyperLabelPresenter<TextView: UIView> where TextView: TextContainerData {
 
     // MARK: - Type declarations
 
@@ -38,7 +38,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         }
     }
 
-    public typealias Handler = () -> Void
+    typealias Handler = () -> Void
 
     // MARK: - Private properties
 
@@ -50,26 +50,26 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     // MARK: - Instantiation
 
-    public init() {}
+    init() {}
 
-    // MARK: - Public API
+    // MARK: - API
 
-    public var extendsLinkTouchArea: Bool = true
+    var extendsLinkTouchArea: Bool = true
 
-    public weak var textView: TextView? {
+    weak var textView: TextView? {
         didSet {
             self.observerTextViewChanges()
         }
     }
 
-    public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
+    var additionalLinkAttributes: [NSAttributedString.Key: Any] {
         get { return self.textStyler.linkAttributes }
         set { self.textStyler.linkAttributes = newValue }
     }
 
-    public func addLink(addLinkWithRange range: NSRange,
-                        accessibilityIdentifier: String?,
-                        withHandler handler: @escaping Handler) {
+    func addLink(addLinkWithRange range: NSRange,
+                 accessibilityIdentifier: String?,
+                 withHandler handler: @escaping Handler) {
         guard let textView = self.textView else {
             assertionFailure("textView is nil")
             return
@@ -87,7 +87,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     }
 
     @objc
-    public func handleTapGesture(sender: UITapGestureRecognizer) {
+    func handleTapGesture(sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         guard let view = self.textView else {
             assertionFailure("textView is nil")
