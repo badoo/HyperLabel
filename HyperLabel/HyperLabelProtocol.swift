@@ -39,7 +39,7 @@ extension HyperLabelProtocol {
 
 private var presenterAssociatedKey = 0
 
-extension HyperLabelProtocol where Self: UILabel {
+extension HyperLabelProtocol where Self: HLHyperLabel {
 
     private typealias Presenter = HyperLabelPresenter<Self>
 
@@ -109,7 +109,7 @@ extension HyperLabelProtocol where Self: UILabel {
     }
 }
 
-private extension UILabel {
+private extension HLHyperLabel {
     func setupForHyperLabel() {
         self.isAccessibilityElement = false
         self.isUserInteractionEnabled = true

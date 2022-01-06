@@ -23,7 +23,7 @@
 
 import UIKit
 
-public final class HyperLabelPresenter<TextView: UIView> where TextView: TextContainerData {
+final class HyperLabelPresenter<TextView: UIView> where TextView: TextContainerData {
 
     // MARK: - Type declarations
 
@@ -38,7 +38,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
         }
     }
 
-    public typealias Handler = () -> Void
+    typealias Handler = () -> Void
 
     // MARK: - Private properties
 
@@ -50,26 +50,26 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
 
     // MARK: - Instantiation
 
-    public init() {}
+    init() {}
 
-    // MARK: - Public API
+    // MARK: - API
 
-    public var extendsLinkTouchArea: Bool = true
+    var extendsLinkTouchArea: Bool = true
 
-    public weak var textView: TextView? {
+    weak var textView: TextView? {
         didSet {
             self.observerTextViewChanges()
         }
     }
 
-    public var additionalLinkAttributes: [NSAttributedString.Key: Any] {
+    var additionalLinkAttributes: [NSAttributedString.Key: Any] {
         get { return self.textStyler.linkAttributes }
         set { self.textStyler.linkAttributes = newValue }
     }
 
-    public func addLink(addLinkWithRange range: NSRange,
-                        accessibilityIdentifier: String?,
-                        withHandler handler: @escaping Handler) {
+    func addLink(addLinkWithRange range: NSRange,
+                 accessibilityIdentifier: String?,
+                 withHandler handler: @escaping Handler) {
         guard let textView = self.textView else {
             assertionFailure("textView is nil")
             return
@@ -87,7 +87,7 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     }
 
     @objc
-    public func handleTapGesture(sender: UITapGestureRecognizer) {
+    func handleTapGesture(sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         guard let view = self.textView else {
             assertionFailure("textView is nil")
@@ -111,25 +111,24 @@ public final class HyperLabelPresenter<TextView: UIView> where TextView: TextCon
     private func didChangeText() {
         guard self.shouldReactToTextChange else { return }
         self.linkRegistry.clear()
+        self.reloadAccessibilityElements()
     }
 
     private var textViewObservers: [NSKeyValueObservation] = []
     private func observerTextViewChanges() {
-        guard let textView = self.textView else {
+        guard var textView = self.textView else {
             self.textViewObservers.removeAll()
             return
         }
+        textView.onTextDidChange = { [weak self] change in
+            guard let self = self, change.oldValue != change.newValue else { return }
+            self.didChangeText()
+        }
+        textView.onAttributedTextChange = { [weak self] change in
+            guard let self = self, change.oldValue != change.newValue else { return }
+            self.didChangeText()
+        }
         self.textViewObservers = [
-            textView.observe(\.text, options: [.new, .old]) { [weak self] _, change in
-                guard let self = self, change.oldValue != change.newValue else { return }
-                self.didChangeText()
-                self.reloadAccessibilityElements()
-            },
-            textView.observe(\.attributedText, options: [.new, .old]) { [weak self] _, change in
-                guard let self = self, change.oldValue != change.newValue else { return }
-                self.didChangeText()
-                self.reloadAccessibilityElements()
-            },
             textView.observe(\.bounds, options: [.new, .old, .initial]) { [weak self] _, change in
                 guard let self = self, change.oldValue != change.newValue else { return }
                 self.reloadAccessibilityElements()
