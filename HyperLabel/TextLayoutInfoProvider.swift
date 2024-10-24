@@ -34,6 +34,7 @@ final class TextLayoutInfoProvider {
         self.textContainer = NSTextContainer()
         self.textStorage = NSTextStorage()
 
+        self.layoutManager.usesFontLeading = false
         self.layoutManager.addTextContainer(self.textContainer)
         self.textStorage.addLayoutManager(self.layoutManager)
     }
